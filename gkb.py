@@ -38,12 +38,12 @@ class GeoGenerator:
         self.location_data = [row for row in location_data_cvs]
         # [州，国家，省（州），市（郡），县（区）]
 
-        nation_equi_cvs = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\nation_equi.csv",
+        nation_equi_cvs = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\nation_abbr_data.csv",
                                           'r', encoding='UTF8'))
-        self.nation_equi_data = [row for row in nation_equi_cvs]
+        self.nation_abbr_data = [row for row in nation_equi_cvs]
         # [0] short term; [1] long term
 
-        capital_data = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\capital_data_reversed.csv",
+        capital_data = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\capital_data.csv",
                                        'r', encoding='UTF8'))
         self.capital_data = [row for row in capital_data]
         # [亚洲,欧洲,非洲,美洲,澳洲,中国省会,美国首府]^T
@@ -87,7 +87,7 @@ class GeoGenerator:
         # ["洲", "国家", "省（州）", "市（郡）", "区（县）"]
         # [0,      1,      2,          3,         4]
 
-        for nation_term in self.nation_equi_data:               # 对国家缩写进行处理
+        for nation_term in self.nation_abbr_data:               # 对国家缩写进行处理
             if location == nation_term[1]:
                 return nation_term[0], 1
         return location, -1             # 没有修改
