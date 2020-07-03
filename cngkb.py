@@ -25,25 +25,31 @@ Date: 2020年1月13日
 
 
 class LocationNotFound(Exception):
-    def __init__(self, location):
+    def __init__(self, location: str):
         err = '未找到{}'.format(location)
+        Exception.__init__(self, err)
+
+
+class LessThanExpectError(Exception):
+    def __init__(self, existnum):
+        err = 'only find {} satisfied item(s) '.format(existnum)
         Exception.__init__(self, err)
 
 
 class GeoGenerator:
     def __init__(self):
         # 将包含地点信息的文件载入
-        location_data_cvs = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\location_data.csv",
+        location_data_cvs = csv.reader(open(r".\gkb_cn\location_data.csv",
                                             'r', encoding='UTF8'))
         self.location_data = [row for row in location_data_cvs]
         # [州，国家，省（州），市（郡），县（区）]
 
-        nation_equi_cvs = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\nation_abbr_data.csv",
+        nation_equi_cvs = csv.reader(open(r".\gkb_cn\nation_abbr_data.csv",
                                           'r', encoding='UTF8'))
         self.nation_abbr_data = [row for row in nation_equi_cvs]
         # [0] short term; [1] long term
 
-        capital_data = csv.reader(open(r"C:\Users\chenh\Desktop\gkb\gkb_cn\capital_data.csv",
+        capital_data = csv.reader(open(r".\gkb_cn\capital_data.csv",
                                        'r', encoding='UTF8'))
         self.capital_data = [row for row in capital_data]
         # [亚洲,欧洲,非洲,美洲,澳洲,中国省会,美国首府]^T
