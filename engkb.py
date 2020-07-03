@@ -1,4 +1,4 @@
-import cngkb
+import cngkb, gkberror
 import pandas as pd
 import csv
 
@@ -15,12 +15,12 @@ class GeoGeneratorEn:
             else:
                 return self.city_usa[self.city_usa[row] == location], row
         else:
-            raise cngkb.LocationNotFound(location=location)
+            raise gkberror.LocationNotFound(location=location)
 
     def single_location_generator(self, single_location, list_len=3):
         try:
             location_index, row_index = self.check_location(location=single_location)
-        except cngkb.LocationNotFound as error:
+        except gkberror.LocationNotFound as error:
             raise error
         # print(location_index)   已找到！
         if row_index != 0:          # 不是第一列的数据
@@ -32,7 +32,7 @@ class GeoGeneratorEn:
             sample = neighbors.sample(n=list_len, replace=False)
             return list(sample[row_index])
         except ValueError:
-            raise cngkb.LessThanExpectError(existnum=neighbors.shape[0])
+            raise gkberror.LessThanExpectError(exist_num=neighbors.shape[0])
 
 
 if __name__ == "__main__":

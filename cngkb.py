@@ -3,6 +3,7 @@
 
 import csv
 import random
+import gkberror
 '''
 Version 2.0
 
@@ -22,18 +23,6 @@ Date: 2020年1月13日
     补充了capital_data.csv文件，增加了世界各国的首都、中国省份的省会和美国各州首府的信息
     2. 完成了对single_location附近周围的查找和生成，但是在拼音上是相邻近的
 '''
-
-
-class LocationNotFound(Exception):
-    def __init__(self, location: str):
-        err = '未找到{}'.format(location)
-        Exception.__init__(self, err)
-
-
-class LessThanExpectError(Exception):
-    def __init__(self, existnum):
-        err = 'only find {} satisfied item(s) '.format(existnum)
-        Exception.__init__(self, err)
 
 
 class GeoGenerator:
@@ -168,7 +157,7 @@ class GeoGenerator:
                     index_in_file = self.location_data.index(location_item)
                     return parsed_location, location_type, index_in_file
             else:       # 无法查找该位置
-                raise LocationNotFound(location)
+                raise gkberror.LocationNotFound(location)
         return location, location_type, index_in_file
 
     '''
@@ -266,12 +255,12 @@ class GeoGenerator:
         for location in multi_location:
             try:
                 self.check_location(location)
-            except LocationNotFound as lnf_except:
+            except gkberror.LocationNotFound as lnf_except:
                 print(lnf_except.args)
             else:
                 functional_multi_location_list.append(location)
         if len(functional_multi_location_list) == 0:                # input没有一个满足要求的地址元素
-            raise LocationNotFound("输入列表中满足要求的地址元素")
+            raise gkberror.LocationNotFound("输入列表中满足要求的地址元素")
         else:
             for location in functional_multi_location_list:
                 multi_location_list.append(self.single_location_generator(location, list_len=len(multi_location)))
