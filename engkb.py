@@ -34,6 +34,21 @@ class GeoGeneratorEn:
         except ValueError:
             raise gkberror.LessThanExpectError(exist_num=neighbors.shape[0])
 
+    def multi_location_generator(self, location_list):
+        return_list = []
+        for location in location_list:
+            return_list.append(self.single_location_generator(single_location=location, list_len=len(location_list)))
+        return return_list
+
+    def run(self, location):
+        # 无需在函数的形参中引入类型，在内部般判断即可
+        input_type = type(location)
+        if input_type == "str":
+            location_set = self.single_location_generator(location)
+        else:
+            location_set = self.multi_location_generator(location)
+        return location_set
+
 
 if __name__ == "__main__":
     geo = GeoGeneratorEn()
@@ -42,3 +57,5 @@ if __name__ == "__main__":
     # print(geo.check_location('Alabama'))
     print(geo.single_location_generator('Boston'))      # ['Billerica', 'Acton', 'Belmont']
     print(geo.single_location_generator('Alabama'))     # ['New Jersey', 'Florida', 'California']
+    print(geo.multi_location_generator(['Boston', 'New York City', 'Texas']))
+    # [['Billerica', 'Pittsfield', 'Lynnfield'], ['Norwich', 'Cornwall', 'Ithaca'], ['Indiana', 'Oregon', 'Ohio']]
